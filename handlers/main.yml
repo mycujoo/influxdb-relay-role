@@ -1,0 +1,8 @@
+---
+
+- name: restart Influxdb-relay
+  service:
+    name: influxdb-relay
+    state: restarted
+  tags:
+    - influxdb-relay

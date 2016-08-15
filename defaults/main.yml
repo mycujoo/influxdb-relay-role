@@ -1,0 +1,22 @@
+---
+
+influxdb_relay_user: influxdb-relay
+influxdb_relay_group: influxdb-relay
+
+influxdb_relay_http_bind_address: 0.0.0.0
+influxdb_relay_http_port: 9096
+
+influxdb_relay_udp_enabled: True
+influxdb_relay_udp_bind_address: 0.0.0.0
+influxdb_relay_udp_port: 9096
+influxdb_relay_udp_read_buffer: 0
+influxdb_relay_udp_precision: "n"
+
+influxdb_relay_ssl_certificate: ""
+
+
+influxdb_relay_http_hosts:
+  - { name: "localhost", "location": "localhost:8086/write", "timeout": 10s, "skip_tls_verification": false }
+
+influxdb_relay_udp_hosts:
+  - { name: "localhost", "location": "localhost:8089", "mtu": 512 }

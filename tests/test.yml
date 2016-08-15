@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: True  
+  roles:
+    - joshualund.golang
+    - mycujoo.influxdb-relay-role

@@ -1,0 +1,50 @@
+---
+
+- name: create group
+  group: name={{ influxdb_relay_group }} state=present
+
+- name: Configuring user groups
+  user:
+    name: "{{ influxdb_relay_user }}"
+    groups: "{{ influxdb_relay_group }}"
+    append: yes
+
+- name: Check if influxdb-relay is installed
+  stat: path=/usr/local/bin/influxdb-relay
+  register: influxdb_relay_bin
+
+- name: build influxdb-relay binary
+  shell: go get -u github.com/influxdata/influxdb-relay
+  environment:
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+    GOPATH: "{{ ansible_env.HOME }}/go"
+  when: not influxdb_relay_bin.stat.exists
+
+- name: copy influxdb-relay to the bin path
+  command: "cp {{ ansible_env.HOME }}/go/bin/influxdb-relay /usr/local/bin/"
+  args:
+    creates: "/usr/local/bin/influxdb-relay"
+  when: not influxdb_relay_bin.stat.exists
+
+# - name: set consul-cli permissions
+#   file:
+#     path: "{{ consul_home }}/bin/consul-cli"
+#     owner: "{{ influxdb_relay_user }}"
+#     group: "{{ influxdb_relay_group }}"
+#     mode: "0755"
+#   when: cli_download.changed
+
+- name: ensure configuration directory exist
+  file: path=/etc/influxdb state=directory owner={{ influxdb_relay_user }} group={{ influxdb_relay_group }} mode=0755
+
+- name: copy configuration
+  template: src=templates/relay.toml dest=/etc/influxdb/relay.toml owner={{ influxdb_relay_user }} group={{ influxdb_relay_group }} mode=0755
+  notify: restart Influxdb-relay
+
+- name: copy service
+  template: src=templates/influxdb-relay.service dest=/etc/init.d/influxdb-relay owner=root group=root mode=0755
+  
+- name: enable the influxdb-relay service
+  service:
+    name: "influxdb-relay"
+    enabled: yes

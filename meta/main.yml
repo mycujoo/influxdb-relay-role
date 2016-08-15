@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Stephen Hoogendijk
+  description: InluxDB relay role
+  company: Mycujoo
+  license: MIT
+
+  min_ansible_version: 2.0
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+
+  galaxy_tags: ['influxdb', 'relay', 'influxdb-relay', 'time-series', 'cloud']
+
+
+dependencies:
+  - { role: joshualund.golang }
