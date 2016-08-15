@@ -26,14 +26,6 @@
     creates: "/usr/local/bin/influxdb-relay"
   when: not influxdb_relay_bin.stat.exists
 
-# - name: set consul-cli permissions
-#   file:
-#     path: "{{ consul_home }}/bin/consul-cli"
-#     owner: "{{ influxdb_relay_user }}"
-#     group: "{{ influxdb_relay_group }}"
-#     mode: "0755"
-#   when: cli_download.changed
-
 - name: ensure configuration directory exist
   file: path=/etc/influxdb state=directory owner={{ influxdb_relay_user }} group={{ influxdb_relay_group }} mode=0755
 
