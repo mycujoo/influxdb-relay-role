@@ -1,6 +1,8 @@
 InfluxDB Relay Ansible role
 =========
 
+[![Build Status](https://travis-ci.org/mycujoo/influxdb-relay-role.svg?branch=master)](https://travis-ci.org/mycujoo/influxdb-relay-role)
+
 This role will install the influxdb relay with Ansible.
 
 Requirements
