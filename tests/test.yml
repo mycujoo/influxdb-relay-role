@@ -3,4 +3,4 @@
   become: True  
   roles:
     - joshualund.golang
-    - mycujoo.influxdb-relay-role
+    - influxdb-relay-role
